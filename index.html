@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="font/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <title>Orders 4</title>
+</head>
+
+<body>
+    <div class="line"></div>
+    <div class="main">
+        <div id="envelope" class="envelope">
+            <a class="close-btn" title="Закрыть" href="javascript:void(0)" onclick="document.getElementById('envelope').style.display='none';"></a>
+            <form class="add-main" method="post" onsubmit="return false;">
+                <div class="all-imput">
+                    <label class="summary-label"> Summary </label><span> *</span>
+                    <br><br>
+                    <label class="key keysummary">Created at (dd/mm/yyyy): </label>
+                    <input class="summary" data-summary="createdAt" type="text">
+                    <br><br>
+                    <label class="key keysummary">Customer: </label>
+                    <input class="summary" data-summary="customer" type="text">
+                    <br><br>
+                    <label class="key keysummary">Status (Accepted/Urgent): </label>
+                    <input class="summary" data-summary="status" type="text">
+                    <br><br>
+                    <label class="key keysummary">Shipped at (dd/mm/yyyy): </label>
+                    <input class="summary" data-summary="shippedAt" type="text">
+                    <br><br>
+                    <label class="key keysummary">Total price:</label>
+                    <input class="summary" data-summary="totalPrice" type="text">
+                    <br><br>
+                    <label class="key keysummary">Currency:</label>
+                    <input class="summary" data-summary="currency" type="text">
+                    <br>
+                </div>
+                <div class="all-imput">
+                    <label> Ship To </label>
+                    <br><br>
+                    <label class="key ship">Name: </label>
+                    <input class="shipTo" data-shipTo="name" type="text">
+                    <br><br>
+                    <label class="key ship">Address: </label>
+                    <input class="shipTo" data-shipTo="address" type="text">
+                    <br><br>
+                    <label class="key keyShipTo">ZIP: </label>
+                    <input class="shipTo" data-shipTo="ZIP" type="text">
+                    <br><br>
+                    <label class="key keyShipTo">Region: </label>
+                    <input class="shipTo" data-shipTo="region" type="text">
+                    <br><br>
+                    <label class="key keyShipTo">Country: </label>
+                    <input class="shipTo" data-shipTo="country" type="text">
+                    <br>
+                </div>
+                <div class="all-imput">
+                    <label> Customer Info </label>
+                    <br><br>
+                    <label class="key customer-info">First Name: </label>
+                    <input class="customerInfo" data-customerInfo="firstName" type="text">
+                    <br><br>
+                    <label class="key customerInfo">LastName:</label>
+                    <input class="customerInfo" data-customerInfo="lastName" type="text">
+                    <br><br>
+                    <label class="key customer-info">Address:</label>
+                    <input class="customerInfo" data-customerInfo="address" type="text">
+                    <br><br>
+                    <label class="key customer-info">Phone:</label>
+                    <input class="customerInfo" data-customerInfo="phone" type="text">
+                    <br><br>
+                    <label class="key customer-info">Email:</label>
+                    <input class="customerInfo" data-customerInfo="email" type="text">
+                    <br><br>
+                </div>
+                <input type="submit" value="Add" id="add-submit"></form>
+        </div>
+        <div class="container bar">
+            <header class="header">
+                <button class="button-arrow"> <i class="fa fa-angle-left" aria-hidden="true"></i> </button>
+                <div class="counts-orders"> Orders</div>
+                <form id="search" onsubmit="return false;">
+                    <input type="search" id="search-input" autocomplete="off" placeholder="Поиск">
+                    <input class="search-form" id="search-button" type="button" value="&#xf002;">
+                    <input class="search-form" id="search-refresh" type="button" value="&#xf021;">
+                </form>
+            </header>
+
+            <div class="wrapper">
+                <div class="loading order-load">
+                    <img src="./img/ajax-loader.gif" />
+                </div>
+                <div class="no-orders"> No Orders </div>
+                <ul id="items">
+
+                </ul>
+            </div>
+
+            <footer class="footer">
+                <div class="footer-icons">
+                    <button id="add-ico"> 
+                                <a class="show-btn" href="javascript:void(0)">
+                                        <img src="img/add1.png" />
+                                    </a></button>
+                    <a href="#"> <img src="img/filter.png" /></a>
+                    <a href="#"> <img src="img/group.png" /></a>
+                </div>
+            </footer>
+
+        </div>
+        <div class="container description">
+            <header class="header">
+                <div class="counts-orders">Order</div>
+            </header>
+            <div class="wrapper">
+                <h1 class="caption"></h1>
+                <div class="cost">
+                    <div></div>
+                    <div class="currency"></div>
+                </div>
+                <div class="data-order">
+                </div>
+                <div class="list-tab">
+                    <button class="active-icon" id="track">
+                    </button>
+                    <button id="google-map">
+                    </button>
+                    <button id="user">
+                    </button>
+                </div>
+
+                <div class="address-content">
+                    <h4 class="subtitle"></h4>
+                    <hr>
+                    <div id="map"> </div>
+                    <div class="main-form">
+                    </div>
+
+                    <button id="save-ship">Save</button>
+                    <button id="edit-ship">Edit</button>
+
+                </div>
+
+                <div class="table-content ">
+                    <div class="name-table">
+                        Line Items
+                    </div>
+                    <input id="search-table-input" placeholder="Search by product's name">
+
+                    <div id="product-form-envelope" class="envelope">
+                        <a class="close-btn" href="javascript:void(0)" onclick="document.getElementById('product-form-envelope').style.display='none';"></a>
+                        <form class="add-main" method="post" onsubmit="return false;">
+                            <div class="all-imput-product">
+                                <label> Add new product </label>
+                                <br><br>
+                                <label class="key">Name: </label><span> *</span>
+                                <input class="product-data" data-product="name" type="text">
+                                <br><br>
+                                <label class="key">Price: </label> <span> *</span>
+                                <input class="product-data" data-product="price" type="text">
+                                <br><br>
+                                <label class="key">Currency: </label> <span> *</span>
+                                <input class="product-data" data-product="currency" type="text">
+                                <br><br>
+                                <label class="key">Quantity: </label><span> *</span>
+                                <input class="product-data" data-product="quantity" type="text">
+                                <br><br>
+                                <label class="key">Total price:</label><span> *</span>
+                                <input class="product-data" data-product="totalPrice" type="text">
+                            </div>
+                            <input type="submit" value="Add" id="add-product-submit">
+                        </form>
+                    </div>
+
+                    <button id="add-ico-product"> 
+                        <a class="show-btn" href="javascript:void(0)" onclick="document.getElementById('product-form-envelope').style.display='block';">
+                                <img src="img/add-product.png">
+                        </a>
+                    </button>
+                    <div class="loading product-load">
+                        <img src="./img/ajax-loader.gif" />
+                    </div>
+                    <table class="products-table">
+                        <thead>
+                            <tr class="column-names">
+                                <th class="products">Product</span>
+                                </th>
+                                <th>Unit Price</span>
+                                </th>
+                                <th>Quantity</span>
+                                </th>
+                                <th>Total</span>
+                                </th>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+
+                    <div class="delete-row-container">
+                    </div>
+                </div>
+                <div class="table-bg"> </div>
+            </div>
+            <div id="no-active-order"> Select Order </div>
+            <footer class="footer">
+                <div class="footer-icons">
+                    <button id="delete-ico"> 
+                                        <img src="img/delete.png" />
+                                    </button>
+                    <a href="#"> <img src="img/mail.png" /></a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    </div>
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtt9k645_qQjnVSsjCnWvxN87YOeYhODM&sensor=false"></script>
+   -->
+    <script src="js/model.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/app.js"></script>
+
+    <!--<script async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCc1Lupl333LRl0IriQaHN4mrEC6FeV0IM&callback=initMap'></script>
+    -->
+</body>
+
+</html>
