@@ -69,74 +69,45 @@
 
             //hang event handlers
 
-            addButton.addEventListener("mouseup", function() {
-                document.querySelector("#envelope").style.display = 'block';
-            });
+            addButton.addEventListener("mouseup", view.openAddOrderForm.bind(_this));
 
             //attaches an event handler to the input element
             productSearchInput.addEventListener("keyup", function() {
-
                 view.setUpProductsSearch();
             });
 
             productsColumn.addEventListener("mouseup", function(e) {
-
-                _this.getSortTable(e);
+                _this.startSorting(e);
             });
 
             tabsContainer.addEventListener("mouseup", function(e) {
                 _this.changeTabsData(e);
             });
 
-            editShippingAddressButton.addEventListener("mouseup",
-                function(e) {
-                    _this.editShippingAddress(e);
-                }
-            );
+            editShippingAddressButton.addEventListener("mouseup", function(e) {
+                _this.editShippingAddress(e);
+            });
 
-            saveShippingAddressButton.addEventListener("mouseup",
-                function(e) {
-                    _this.saveShippingAddress(e);
-                }
-            );
+            saveShippingAddressButton.addEventListener("mouseup", function(e) {
+                _this.saveShippingAddress(e);
+            });
 
-            orderDeleteButton.addEventListener("mouseup",
-                function() {
-                    _this.deleteOrder();
-                }
-            );
+            orderDeleteButton.addEventListener("mouseup", this.deleteOrder.bind(_this));
 
-            addProductButton.addEventListener("mouseup",
-                function() {
-                    _this.addProduct();
-                }
-            );
+            addProductButton.addEventListener("mouseup", this.addProduct.bind(_this));
 
-            productContainer.addEventListener("mouseup",
-                function() {
-                    _this.deleteProduct();
-                }
-            );
+            productContainer.addEventListener("mouseup", this.deleteProduct.bind(_this));
 
-            orderAddButton.addEventListener("mouseup",
-                function() {
-                    _this.addOrderToServer();
-                }
-            );
+            orderAddButton.addEventListener("mouseup", this.addOrderToServer.bind(_this));
 
-            orderSearchButton.addEventListener("mouseup",
-                function() {
-                    _this._onSearchOrderClick();
-                }
-            );
+            orderSearchButton.addEventListener("mouseup", this._onSearchOrderClick.bind(_this));
+
             orderSearchInput.addEventListener("keyup", function(e) {
                 if (e.keyCode === SEARCH_ORDERS_KEY_CODE) {
                     _this._onSearchOrderClick();
                 }
             });
-            orderSearchResearch.addEventListener("mouseup", function() {
-                _this._onRefreshSearchOrdersClick();
-            });
+            orderSearchResearch.addEventListener("mouseup", this._onRefreshSearchOrdersClick.bind(_this));
 
             containerForOrders.addEventListener("click", _this.changeContentToOrder);
 
@@ -180,9 +151,23 @@
          *
          * @private
          */
-        this.getSortTable = function(e) {
-            view.sortTable(e, 0, "string");
-        }
+        this.startSorting = function(e) {
+
+            //get column for sort
+            var sortColumn = view.getProductColumnElement();
+
+            //get table's rows array
+            var rowsArray = view.getRowsArrayForSort();
+
+            //selecting ascending or descending sorting
+            var count = view.getSortingTypeCount();
+
+            //sort table
+            var sortedRowsArray = model.sortTable(rowsArray, count, 0);
+
+            //show result
+            view.showSortedRows(sortedRowsArray);
+        };
 
 
         /**
@@ -196,7 +181,7 @@
          */
         this.editShippingAddress = function(e) {
             view.editShippingAddress(e);
-        }
+        };
 
         /**
          * Load tab's buttons click event handler.
@@ -215,7 +200,7 @@
                 .then(function(oneOrder) {
                     view.changeTabs(e, oneOrder);
                 });
-        }
+        };
 
         /**
          * Load save Shipping address button click event handler.
@@ -240,17 +225,14 @@
                 })
                 .then(function(oneOrder) {
                     _this.addContentToActiveOrder(oneOrder);
-                })
-        }
-
-
+                });
+        };
 
         /**
          * Load delete order button click event handler.
          *
          * @listens click
          *
-         * @param {Event} e the DOM event object.
          *
          * @private
          */
@@ -273,7 +255,7 @@
                     view.hideLoading("order");
                 });
 
-        }
+        };
 
         /**
          * Load delete product button click event handler.
@@ -286,7 +268,7 @@
          */
         this.deleteProduct = function(e) {
             var orderIdToDelete = view.getActiveOrderContainer().getAttribute("data-id"),
-                productIdToDelete = event.target.getAttribute("data-id");
+                productIdToDelete = e.target.getAttribute("data-id");
             view.showLoading("product");
             model.
             deleteProductData(orderIdToDelete, productIdToDelete)
@@ -298,7 +280,7 @@
                     _this.addContentToTable(data);
                     view.hideLoading("product");
                 });
-        }
+        };
 
         /**
          * Load add product button click event handler.
@@ -323,7 +305,7 @@
                     _this.addContentToTable(data);
                     view.hideLoading("product");
                 });
-        }
+        };
 
         /**
          * Insert order's data into page.
@@ -347,7 +329,7 @@
         this.addContentToTable = function(products) {
             view.addContentToTable(products, products.length);
             view.setTotalPrice(products);
-        }
+        };
 
         /**
          * Load orders's container click event handler.
@@ -359,9 +341,9 @@
          * @private
          */
 
-        this.changeContentToOrder = function(event) {
+        this.changeContentToOrder = function(e) {
             view.switchActiveOrder(false);
-            view.changeContentForActiveOrder(event);
+            view.changeContentForActiveOrder(e);
 
             //get active order's id
             var activeOrder = view.getActiveOrderContainer().getAttribute("data-id");
@@ -378,7 +360,7 @@
 
                 });
 
-        }
+        };
 
 
         /**
@@ -436,7 +418,7 @@
                     view.hideLoading("order");
                 });
 
-        }
+        };
 
     }
 

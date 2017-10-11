@@ -19,7 +19,7 @@
          * @constant
          * @type {string}
          */
-        var STATUS_ACCEPTED = "Accepted";
+        var STATUS_ACCEPTED = " Accepted";
 
         /**
          * Urgent status
@@ -207,6 +207,14 @@
 
         var count = 0;
 
+        /**
+         * Returns count for selecting ascending or descending sorting
+         *
+         * @returns {Number} count number for selecting.
+         */
+        this.getSortingTypeCount = function() {
+            return count;
+        };
 
         /**
          * Returns the order delete products containers .
@@ -341,7 +349,7 @@
         /**
          * Returns map tab button.
          *
-         * @returns {HTMLbuttonElement} the button element.
+         * @returns {HTMLButtonElement} the button element.
          *
          * @public
          */
@@ -369,7 +377,7 @@
         /**
          * Returns header.
          *
-         * @returns {HTMLh1Element} the h1 element.
+         * @returns {HTMLH1Element} the h1 element.
          *
          * @public
          */
@@ -471,16 +479,17 @@
 
             this.getSaveShipToButton().style.display = "block";
             this.getEditShipToButton().style.display = "none";
-        }
+        };
 
         /**
          * Get shipping address object data
          *
          * @param {Event} e event object
+         *
+         * @param {Array} arrayOfKeys array of keys
          * 
          * @return {Object} object to put data
          */
-        //
         this.saveShippingAddress = function(e, arrayOfKeys) {
             var inputsArray = this.getInputsForMainForm(),
                 valuesArray = [];
@@ -490,13 +499,13 @@
                 inputsArray[count].readOnly = true;
                 inputsArray[count].classList.remove("edit-input");
                 valuesArray[count] = inputsArray[count].value;
-            };
+            }
 
             this.getSaveShipToButton().style.display = "none";
-            this.getEditShipToButton().style.display = "block"; //:(((
+            this.getEditShipToButton().style.display = "block";
 
             //create object with shipping address data
-            var dataObjToPut = {}
+            var dataObjToPut = {};
             dataObjToPut.shipTo = {};
 
             //fill data from inputs
@@ -505,7 +514,7 @@
             }
 
             return dataObjToPut;
-        }
+        };
 
         /**
          * Get product to add
@@ -528,15 +537,15 @@
 
             //add data to objValues object
             for (var i = 0; i < inputs.length; i++) {
-                var productDescr = inputs[i].getAttribute("data-product");
-                objValues[productDescr] = inputs[i].value;
+                var productDescription = inputs[i].getAttribute("data-product");
+                objValues[productDescription] = inputs[i].value;
             }
 
             //add orderId property
             objValues["orderId"] = activeOrder;
 
             return objValues;
-        }
+        };
 
         /**
          * Is the product selected.
@@ -558,7 +567,7 @@
                 document.querySelectorAll('.wrapper')[1].style.display = "";
                 document.querySelector('#no-active-order').style.display = "none";
             }
-        }
+        };
 
         /**
          * Display the number of orders or items in the table
@@ -676,8 +685,8 @@
 
             finallyDate = arrDate[0] + " " + arrDate[1] + ". " + arrDate[2] + " г.";
 
-            return finallyDate.substring(1, finallyDate.length - 1);
-        }
+            return finallyDate;
+        };
 
         /**
          * Change view state.
@@ -695,7 +704,7 @@
                 itemElem.classList += ' active-state';
             }
             return newStateVersion;
-        }
+        };
 
         /**
          * Event handler function search button and enter.
@@ -724,7 +733,7 @@
 
                 }
 
-                if (container.style.display == "") {
+                if (container.style.display === "") {
                     count++;
                 }
 
@@ -778,13 +787,13 @@
             //filling data
             this.getHeaderElement().innerHTML += order.id;
             this.fillOrderForm(arrDescription, arrValue, "header-form", orderInfoContainer);
-        }
+        };
 
         /**
          * Add values for form.
          *
          * @param {string[]} description descriptions strings
-         * @param {(Object|string[])} values values for insert
+         * @param {(Object|string[])} value values for insert
          * @param {string} type forms context
          * @param {Object} container container for form
          * 
@@ -884,6 +893,7 @@
             if (activeTab === USER_TAB_ID) {
                 subtitle.innerHTML = "Personal Information:";
                 this.getEditShipToButton().style.display = "none";
+                this.getSaveShipToButton().style.display = "none";
                 this.fillOrderForm(arrDescriptionCustomer, customerInfo, "main-form", mainContainer);
                 map.style.display = "none";
             }
@@ -899,19 +909,17 @@
                 subtitle.innerHTML = "Shipping Map:";
                 map.style.display = "";
                 this.addMap(shipToInfo);
-
-
             }
-        }
+        };
 
         /**
          * Change tabs
          * 
          * @param {Event} e the DOM event object.
          * 
-         * @param  {Object} order orderData the order data object.
+         * @param  {Object} activeOrder orderData the order data object.
          */
-        this.changeTabs = function(event, activeOrder) {
+        this.changeTabs = function(e, activeOrder) {
             var tabs = document.querySelector(".list-tab"),
                 activeTab = "",
                 subtitle = document.querySelector(".subtitle");
@@ -921,19 +929,19 @@
                 trackElm = this.getTrackTab(),
                 mapElm = this.getMapTab();
 
-            var target = event.target;
+            var target = e.target;
 
             //fill information depending on the pressed button
-            if (target == userElm) {
+            if (target === userElm) {
 
                 _this.addContentToForm(activeOrder, USER_TAB_ID);
                 activeTab = USER_TAB_ID;
             }
-            if (target == trackElm) {
+            if (target === trackElm) {
                 _this.addContentToForm(activeOrder, TRACK_TAB_ID);
                 activeTab = TRACK_TAB_ID;
             }
-            if (target == mapElm) {
+            if (target === mapElm) {
                 this.getEditShipToButton().style.display = "none";
                 subtitle.innerHTML = "Shipping Map:";
                 map.style.display = "";
@@ -942,7 +950,7 @@
             }
 
             _this.changeTabsView(activeTab);
-        }
+        };
 
 
         this.addMap = function(activeOrder) {
@@ -953,11 +961,11 @@
             var img = document.createElement("img");
 
             mainContainer.innerHTML = "";
-            map.style.display = ""
-            console.log(activeOrder['shipTo'].address);
-            img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + activeOrder['shipTo'].address + "&size=300x200";
+            map.style.display = "";
+            img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + activeOrder['shipTo'].address + "&size=300x200&key=AIzaSyBWdc6DsiQLc-gGzZYl0KscvJd4v4tckGc";
+            console.log(img.src);
             map.appendChild(img);
-        }
+        };
 
         /**
          * Change class and background of tabs
@@ -981,7 +989,7 @@
 
             }
 
-        }
+        };
 
         /**
          * Add the once order products data to table
@@ -1021,7 +1029,7 @@
             }
 
             this.addItemsCount(productsArray.length, "name-table", "Line Items")
-        }
+        };
 
         /**
          * Filling row order's products data
@@ -1066,60 +1074,58 @@
             }
 
             return row;
-        }
+        };
 
         /**
-         * Sort table 
+         * Get rows array for sort
          * 
-         * @param  {Object} column when you click on column, table sorts
-         * @param  {Number} number products count 
-         * @param  {String} type type items of search
+         * @return {Array[]} the array of table's rows
          * 
          */
-        this.sortTable = function(column, number, type) {
+        this.getRowsArrayForSort = function() {
 
             var table = this.getTableElement();
             //select ascending or descending
             count++;
 
             var tbody = table.querySelector('tbody');
-            var products = this.getProductColumnElement();
 
-            // array of row
-            var rowsArray = [].slice.call(tbody.rows);
-            var compare;
+            return [].slice.call(tbody.rows);
 
-            //sorting strings
-            if (type === 'string') {
-                compare = function(rowA, rowB) {
-                    if (count % 2 == 0) {
+        };
 
-                        //add sort icon
-                        products.innerHTML = "Product <i class='fa fa-arrow-down' aria-hidden='true'></i>";
+        /**
+         * Show sorted table
+         * 
+         * @param  {Array} sortedRowsArray sorted table's rows array
+         * 
+         */
+        this.showSortedRows = function(sortedRowsArray) {
+            var products = this.getProductColumnElement(),
+                table = this.getTableElement(),
+                tbody = table.querySelector('tbody');
 
-                        return rowA.cells[number].innerHTML < rowB.cells[number].innerHTML ? 1 : -1;
-                    } else {
-                        //add sort icon
-                        products.innerHTML = "Product <i class='fa fa-arrow-up' aria-hidden='true'></i>";
+            if (count % 2 === 0) {
 
-                        return rowA.cells[number].innerHTML > rowB.cells[number].innerHTML ? 1 : -1;
-                    }
-                };
+                //add sort icon
+                products.innerHTML = "Product <i class='fa fa-arrow-down' aria-hidden='true'></i>";
+
+            } else {
+                //add sort icon
+                products.innerHTML = "Product <i class='fa fa-arrow-up' aria-hidden='true'></i>";
             }
-            // sort
-            rowsArray.sort(compare);
 
             //Remove tbody
             table.removeChild(tbody);
 
             // add the result in the desired order to tbody
-            for (var i = 0; i < rowsArray.length; i++) {
-                tbody.appendChild(rowsArray[i]);
+            for (var i = 0; i < sortedRowsArray.length; i++) {
+                tbody.appendChild(sortedRowsArray[i]);
             }
 
             table.appendChild(tbody);
-        };
 
+        };
 
         /**
          * Set Up Products Search
@@ -1167,12 +1173,13 @@
 
             this.addItemsCount(count, "name-table", "Line Items")
 
-        }
+        };
 
         /**
+         * 
          * Set total price
          * 
-         * @param  {Array} productsArray array of products data 
+         * @param  {Array[]} productsArray array of products data 
          */
         this.setTotalPrice = function(productsArray) {
             var count = 0;
@@ -1184,14 +1191,14 @@
 
             ///delete the used total price
             var cost = document.querySelector(".cost");
-            for (var i = 0; i < cost.children.length; i++) {
-                cost.children[i].innerHTML = "";
+            for (var j = 0; j < cost.children.length; j++) {
+                cost.children[j].innerHTML = "";
             }
 
             //add total price value to header
             cost.children[0].innerHTML += count;
             cost.children[1].innerHTML += "EUR";
-        }
+        };
 
         /**
          * 
@@ -1201,10 +1208,10 @@
          *
          * @private
          */
-        this.changeContentForActiveOrder = function(event) {
+        this.changeContentForActiveOrder = function(e) {
             var activeOrder = document.querySelector("." + ORDER_ACTIVE_CONTAINER_CLASS); // selected order before click
 
-            var target = event.target.parentElement, //what clicked
+            var target = e.target.parentElement, //what clicked
                 targetClassList = target.classList, //target element's class list 
                 parentClass = target.parentElement.classList; // target parent's  class list
 
@@ -1217,7 +1224,7 @@
                     target.parentElement.classList.add(ORDER_ACTIVE_CONTAINER_CLASS);
                 }
             }
-        }
+        };
 
 
         /**
@@ -1228,10 +1235,6 @@
 
             //object to insert data
             var objValues = {};
-
-            //close form
-            var form = document.querySelector("#envelope");
-            form.style.display = 'none';
 
             //set properties for the object
             objValues.summary = {};
@@ -1245,7 +1248,6 @@
             for (var i = 0; i < inputs.length; i++) {
 
                 for (var j = 0; j < inputs[i].children.length; j++) {
-
 
                     //get input's classes
                     var inputsClasses = inputs[i].children[j].classList;
@@ -1273,9 +1275,30 @@
 
             }
 
+            //close form
+            var form = document.querySelector("#envelope");
+            form.style.display = 'none';
+
             return objValues;
 
-        }
+        };
+
+
+        /**
+         * Open add order form
+         */
+        this.openAddOrderForm = function() {
+            document.querySelector("#envelope").style.display = 'block';
+            var inputs = document.querySelectorAll(".all-imput");
+
+            for (var i = 0; i < inputs.length; i++) {
+                for (var j = 0; j < inputs[i].children.length; j++) {
+                    inputs[i].children[j].value = " ";
+                }
+            }
+
+        };
+
 
         /**
          * Add loading busy indicators
@@ -1294,7 +1317,8 @@
                 tableContent.style.opacity = "0.5";
             }
 
-        }
+        };
+
 
         /**
          * Delete loading busy indicators
@@ -1311,9 +1335,7 @@
                 load[1].style.display = "none";
                 tableContent.style.opacity = "";
             }
-        }
-
-
+        };
     }
 
     window.View = View;

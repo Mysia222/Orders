@@ -287,6 +287,30 @@
             });
         };
 
+        /**
+         * Sort table
+         * 
+         * @param  {Array} rowsArray array of rows
+         * @param  {Number} count for selecting ascending or descending
+         * @param  {Number} number products count row
+         * 
+         * @return {Array} the sorted array of rows
+         * 
+         */
+        this.sortTable = function(rowsArray, count, number) {
+            var compare = function(rowA, rowB) {
+                if (count % 2 == 0) {
+                    return rowA.cells[number].innerHTML < rowB.cells[number].innerHTML ? 1 : -1;
+                } else {
+                    return rowA.cells[number].innerHTML > rowB.cells[number].innerHTML ? 1 : -1;
+                }
+            };
+
+            // sort
+            rowsArray.sort(compare);
+            return rowsArray;
+        };
+
     }
 
     window.Model = Model;
